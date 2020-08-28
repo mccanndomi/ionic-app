@@ -38,7 +38,7 @@ const Login: React.FC = () => {
   }
 
   var usersUuid: string;
-  var enteredName: string;
+
   return (
     <IonPage>
       <IonHeader>
