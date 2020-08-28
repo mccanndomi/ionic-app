@@ -10,7 +10,7 @@ import {
 import React from "react";
 import ExploreContainer from "../components/ExploreContainer";
 //import {useState} from 'react'
-import { Name, NameContextProvider, NameContextConsumer } from "../NameState";
+
 import { useState, useEffect } from "react";
 import {registerFirebase, auth} from '../MyFirebase'
 
