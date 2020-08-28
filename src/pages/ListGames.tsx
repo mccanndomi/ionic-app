@@ -3,9 +3,9 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabBut
          IonList, IonItem, IonLabel, IonItemOption, IonItemOptions, IonItemSliding, IonGrid, IonRow, IonCol, IonIcon, IonLoading } from '@ionic/react';
 import uuid from 'uuid';
 import './ListGames.css';
-
-import { Game, Games, GameContextConsumer, saveGames } from '../GamesState';
+import { Game, Games, GameContextConsumer, saveGames, setSelectedGame } from '../GamesState';
 import { add } from 'ionicons/icons';
+import ShowGame from './ShowGame';
 
 const ListGames: React.FC = () => {
 
@@ -35,27 +35,27 @@ const ListGames: React.FC = () => {
         <GameContextConsumer>
           { (context : Games) =>
           <IonList>
-            { (context.games)
+            { 
+            (context.games)
               ? context.games.map((g : Game) =>
                 <IonItemSliding key={uuid.v4()}>
-                  {/*Where the game tile begins*/}
-                  <IonItem button href="/ShowGame">
+                  <IonItem button routerLink="/showgame" onClick={() => setSelectedGame(g.id)}>
                     <IonGrid>
                       <IonRow>
             <IonLabel className="game_info">{g.home_team} {g.home_goals} - {g.away_goals} {g.away_team} </IonLabel>
                       </IonRow>
                     </IonGrid>
                   </IonItem>
-
                   <IonItemOptions side="end">
                     <IonItemOption color="danger" onClick={() =>{
-                      var i = context.games.findIndex(o => o.date === g.date && o.home_team === g.home_team && o.away_team === g.away_team);
+                      var i = context.games.findIndex(o => o.id === g.id);
                       if (i > -1) context.games.splice(i, 1);
                       saveGames(context.games);
                     }}>Delete</IonItemOption>
                   </IonItemOptions>
                 </IonItemSliding>)
-              : {} }
+              : {}
+              }
           </IonList>
           }
         </GameContextConsumer>
@@ -83,8 +83,8 @@ const ListGames: React.FC = () => {
             {(context : Games) => (
               <IonButton type="submit" onClick={ e =>
                 {
-                  context.games ? context.games.push({date : date, home_team : home_team, away_team : away_team, location : location, home_goals : home_goals, away_goals : away_goals}) :
-                                  context.games = [{date : date, home_team : home_team, away_team : away_team, location : location, home_goals : home_goals, away_goals : away_goals}]
+                  context.games ? context.games.push({date : date, home_team : home_team, away_team : away_team, location : location, home_goals : home_goals, away_goals : away_goals, id : uuid.v4()}) :
+                                  context.games = [{date : date, home_team : home_team, away_team : away_team, location : location, home_goals : home_goals, away_goals : away_goals, id : uuid.v4()}]
                   saveGames(context.games);
                   setShowModal(false);
                 }

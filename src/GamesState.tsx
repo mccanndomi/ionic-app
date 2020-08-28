@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { Plugins } from '@capacitor/core';
+import { gameController } from 'ionicons/icons';
 
 export interface Game {
     //Create Fields
@@ -7,14 +8,14 @@ export interface Game {
     home_team : string;
     away_team : string;
     location : string;
-    //Fields to add later
     home_goals: string;
     away_goals: string;
-
+    id: string;
 }
 
 export interface Games {
     games : Game[];
+    selectedGame : string;
 }
 
 const { Storage } = Plugins;
@@ -26,11 +27,49 @@ export async function saveGames(gs : Game[]) {
     });
 }
 
+export async function setSelectedGame(game : string) {
+    await Storage.set({
+        key: "selectedGame",
+        value: game
+    });
+}
+
+export async function getSelectedGame() : Promise<Game>{
+    const gameIdRes = await Storage.get({key : "selectedGame"});
+    let selectedGameId = ""
+
+    if(typeof gameIdRes.value === 'string'){
+        selectedGameId = gameIdRes.value; 
+    }
+
+    let res = await Storage.get({key : "games"});
+    let storageGames = [] as Game[];
+
+    if(typeof res.value === 'string'){
+        storageGames = JSON.parse(res.value) as Game[]; 
+    }
+
+    const game = storageGames.map((game) => {
+        if(game.id === selectedGameId){
+            console.log(game);
+            return game as Game;
+        }
+    });
+
+    const returnedGame = {home_team : " ", away_team : " ", home_goals : " ", away_goals : " ", location : " ", date : " ", id : " "} as Game;
+    if (game === undefined) {
+        return returnedGame;
+    } 
+
+    return returnedGame;
+}
+
 let GamesContext = createContext({} as Games);
 
 function GameContextProvider(props: { children : React.ReactNode; }) {
 
     const [initialGames, setInitialGames] = useState([] as Game[]);
+    const selectedGame1 = "hello";
 
     useEffect(() => {
         Promise.resolve(Storage.get({key: 'games'}).then(
@@ -44,7 +83,7 @@ function GameContextProvider(props: { children : React.ReactNode; }) {
     }, []);
 
     return(
-    <GamesContext.Provider value={{games : initialGames}}>{props.children}</GamesContext.Provider>
+    <GamesContext.Provider value={{games : initialGames, selectedGame : selectedGame1}}>{props.children}</GamesContext.Provider>
     )
 }
 
