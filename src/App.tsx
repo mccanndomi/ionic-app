@@ -41,7 +41,7 @@ const App: React.FC = () => (
   <IonApp>
     <GameContextProvider>
       <IonReactRouter>
-        <IonTabs>
+        
           <IonRouterOutlet>
             <Route path="/login" component={Login} exact={true} />
             <Route path="/register" component={Register} exact={true} />
@@ -50,21 +50,7 @@ const App: React.FC = () => (
             <Route path="/highlightstab" component={Highlights} />
             <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
           </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="listgamestab" href="/listgamestab">
-              <IonIcon icon={triangle} />
-              <IonLabel>List Games</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="addgametab" href="/addgametab">
-              <IonIcon icon={ellipse} />
-              <IonLabel>Add Games</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="highlightstab" href="/highlightstab">
-              <IonIcon icon={square} />
-              <IonLabel>Highlights</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
+          
       </IonReactRouter>
     </GameContextProvider>
   </IonApp>
