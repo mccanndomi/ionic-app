@@ -9,7 +9,6 @@ import {
 } from "@ionic/react";
 import React from "react";
 import ExploreContainer from "../components/ExploreContainer";
-import "./Home.css";
 //import {useState} from 'react'
 import { Name, NameContextProvider, NameContextConsumer } from "../NameState";
 import { useState, useEffect } from "react";

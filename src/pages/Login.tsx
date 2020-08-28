@@ -1,6 +1,5 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton } from '@ionic/react';
 import React from 'react';
-import './Home.css';
 import {Name, NameContextProvider, NameContextConsumer } from '../NameState'
 import {useState, useEffect} from 'react'
 import {logInUser} from '../MyFirebase'
