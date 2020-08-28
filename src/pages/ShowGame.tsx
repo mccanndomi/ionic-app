@@ -14,8 +14,6 @@ const ShowGame: React.FC = () => {
         async function setGame() {
             await getSelectedGame()
                 .then(game => setSelectedGame(game))
-            
-
         }
 
         setGame();
@@ -28,6 +26,8 @@ const ShowGame: React.FC = () => {
                 <GameContextConsumer>
                 { (context : Games) =>
                 <IonContent>
+                    {console.log(game.home_team)}
+                    <IonLabel>Game: </IonLabel>
                     <IonLabel>{game.home_team}</IonLabel>
                 </IonContent>
                 }
