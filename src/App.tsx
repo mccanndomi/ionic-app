@@ -14,6 +14,8 @@ import { ellipse, square, triangle } from 'ionicons/icons';
 import ListGames from './pages/ListGames';
 import AddGame from './pages/AddGame';
 import Highlights from './pages/Highlights';
+import Login from './pages/Login';
+import Register from './pages/Register'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -41,10 +43,12 @@ const App: React.FC = () => (
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
+            <Route path="/login" component={Login} exact={true} />
+            <Route path="/register" component={Register} exact={true} />
             <Route path="/listgamestab" component={ListGames} exact={true} />
             <Route path="/addgametab" component={AddGame} exact={true} />
             <Route path="/highlightstab" component={Highlights} />
-            <Route path="/" render={() => <Redirect to="/listGames" />} exact={true} />
+            <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
           </IonRouterOutlet>
           <IonTabBar slot="bottom">
             <IonTabButton tab="listgamestab" href="/listgamestab">
