@@ -61,6 +61,9 @@ const ListGames: React.FC = () => {
         </GameContextConsumer>
 
         <IonModal isOpen={showModal} cssClass='my-custom-class'>
+        <IonToolbar>
+          <IonTitle>Game Stats</IonTitle>
+        </IonToolbar>
         <IonList lines="inset">
           <IonItem>
             <IonLabel position="floating">Date</IonLabel>
