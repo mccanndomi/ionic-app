@@ -5,7 +5,7 @@ import uuid from 'uuid';
 import './ListGames.css';
 
 import { Game, Games, GameContextConsumer, saveGames } from '../GamesState';
-import { triangle, add } from 'ionicons/icons';
+import { add } from 'ionicons/icons';
 
 const ListGames: React.FC = () => {
 
@@ -16,7 +16,6 @@ const ListGames: React.FC = () => {
   var home_team : string;
   var away_team : string;
   var location : string;
-
   var home_goals = "0";
   var away_goals = "0";
 
@@ -24,30 +23,26 @@ const ListGames: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>ListGames</IonTitle>
+          <IonTitle>Games</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">ListGames</IonTitle>
+            <IonTitle size="large">Games</IonTitle>
           </IonToolbar>
         </IonHeader>
         <GameContextConsumer>
           { (context : Games) =>
-          <IonList inset lines="none">
+          <IonList>
             { (context.games)
               ? context.games.map((g : Game) =>
                 <IonItemSliding key={uuid.v4()}>
                   {/*Where the game tile begins*/}
-                  <IonItem button>
+                  <IonItem button href="/ShowGame">
                     <IonGrid>
                       <IonRow>
-            <IonCol size="1"><IonItem><IonLabel className="game_info"><IonIcon icon={triangle} /></IonLabel></IonItem></IonCol>
-            <IonCol size="4"><IonItem><IonLabel className="game_info">{g.home_team}</IonLabel></IonItem></IonCol>
-            <IonCol size="2"><IonItem><IonLabel className="game_info">{g.home_goals} - {g.away_goals}</IonLabel></IonItem></IonCol>
-            <IonCol size="4"><IonItem><IonLabel className="game_info">{g.away_team}</IonLabel></IonItem></IonCol>
-            <IonCol size="1"><IonItem><IonLabel className="game_info"><IonIcon icon={triangle} /></IonLabel></IonItem></IonCol>
+            <IonLabel className="game_info">{g.home_team} {g.home_goals} - {g.away_goals} {g.away_team} </IonLabel>
                       </IonRow>
                     </IonGrid>
                   </IonItem>
@@ -91,6 +86,7 @@ const ListGames: React.FC = () => {
                   context.games ? context.games.push({date : date, home_team : home_team, away_team : away_team, location : location, home_goals : home_goals, away_goals : away_goals}) :
                                   context.games = [{date : date, home_team : home_team, away_team : away_team, location : location, home_goals : home_goals, away_goals : away_goals}]
                   saveGames(context.games);
+                  setShowModal(false);
                 }
               }>Add New Game</IonButton>
             )}

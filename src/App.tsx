@@ -16,6 +16,7 @@ import AddGame from './pages/AddGame';
 import Highlights from './pages/Highlights';
 import Login from './pages/Login';
 import Register from './pages/Register'
+import ShowGame from './pages/ShowGame'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -45,6 +46,7 @@ const App: React.FC = () => (
           <IonRouterOutlet>
             <Route path="/login" component={Login} exact={true} />
             <Route path="/register" component={Register} exact={true} />
+            <Route path="/ShowGame" component={ShowGame} exact={true} />
             <Route path="/listgamestab" component={ListGames} exact={true} />
             <Route path="/addgametab" component={AddGame} exact={true} />
             <Route path="/highlightstab" component={Highlights} />
@@ -63,7 +65,7 @@ const App: React.FC = () => (
               <IonIcon icon={square} />
               <IonLabel>Highlights</IonLabel>
             </IonTabButton>
-          </IonTabBar>
+            </IonTabBar>
         </IonTabs>
       </IonReactRouter>
     </GameContextProvider>
