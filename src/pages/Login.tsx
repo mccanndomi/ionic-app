@@ -14,7 +14,8 @@ import { logInUser } from "../MyFirebase";
 import { createToast } from "../toast";
 import { registerFirebase, auth, db } from "../MyFirebase";
 import { GameContextConsumer, setUuid, getUuid } from "../GamesState";
-import { Redirect } from "react-router";
+import { Redirect, useHistory } from "react-router";
+
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -22,6 +23,8 @@ const Login: React.FC = () => {
   const [correctPassword, setCorrectPassword] = useState(false);
 
   var usersUuid: string;
+
+  const history = useHistory();
 
   async function loginUser() {
     const loggedIn = await logInUser(username, password);
@@ -39,6 +42,7 @@ const Login: React.FC = () => {
         setUuid(usersUuid);
         console.log(`some  ${usersUuid}`);
         setCorrectPassword(true);
+        history.push("/listgamestab");
       } else {
         console.log("oh no");
       }
@@ -67,9 +71,10 @@ const Login: React.FC = () => {
             <IonButton
               onClick={() => {
                 loginUser();
+                console.log(correctPassword)
                 
               }}
-              href="/listgamestab"
+              
             >
               Login In
             </IonButton>

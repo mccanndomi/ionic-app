@@ -87,6 +87,8 @@ export async function getSelectedGame(): Promise<any> {
 
   console.log(uuid);
 
+  
+
   // const gameIdRes = await Storage.get({ key: "selectedGame" });
   // let selectedGameId = "";
 

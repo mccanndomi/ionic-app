@@ -31,8 +31,6 @@ const Register: React.FC = () => {
     const tryReg = await registerFirebase(username, password);
     console.log(tryReg)
 
-
-
   }
 
   var enteredName: string;
