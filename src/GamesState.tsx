@@ -18,16 +18,16 @@ export interface Game {
 }
 
 export interface Stats {
-    home_corners : number;
-    away_corners : number;
-    home_shots : number;
-    away_shots : number;
-    home_passes : number;
-    away_passes : number;
-    home_ball_in_box : number;
-    away_ball_in_box : number;
-    home_tackles : number;
-    away_tackles : number;
+  home_corners: number;
+  away_corners: number;
+  home_shots: number;
+  away_shots: number;
+  home_passes: number;
+  away_passes: number;
+  home_ball_in_box: number;
+  away_ball_in_box: number;
+  home_tackles: number;
+  away_tackles: number;
 }
 
 export interface Games {
@@ -56,16 +56,16 @@ export async function saveGames(gs: Game[]) {
   });
 }
 
-export async function removeGame(id : string){
-    console.log(id);
-    console.log(`user1/${id}`);
-    db.ref(`user1/${id}`).remove();
+export async function removeGame(id: string) {
+  console.log(id);
+  console.log(`user1/${id}`);
+  db.ref(`user1/${id}`).remove();
 }
 
-export async function setSelectedGame(game: string) {
+export async function setSelectedGame(id: string) {
   await Storage.set({
     key: "selectedGame",
-    value: game,
+    value: id,
   });
 }
 
@@ -82,6 +82,11 @@ export async function getUuid(): Promise<string> {
 }
 
 export async function getSelectedGame(): Promise<any> {
+  let selectedID = await Storage.get({ key: "selectedGame" });
+  let uuid = selectedID.value as string;
+
+  console.log(uuid);
+
   // const gameIdRes = await Storage.get({ key: "selectedGame" });
   // let selectedGameId = "";
 
