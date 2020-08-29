@@ -82,30 +82,30 @@ export async function getUuid(): Promise<string> {
 }
 
 export async function getSelectedGame(): Promise<any> {
-  const gameIdRes = await Storage.get({ key: "selectedGame" });
-  let selectedGameId = "";
+  // const gameIdRes = await Storage.get({ key: "selectedGame" });
+  // let selectedGameId = "";
 
-  if (typeof gameIdRes.value === "string") {
-    selectedGameId = gameIdRes.value as string;
-  }
+  // if (typeof gameIdRes.value === "string") {
+  //   selectedGameId = gameIdRes.value as string;
+  // }
 
-  let res = await Storage.get({ key: "games" });
-  let storageGames = [] as Game[];
+  // let res = await Storage.get({ key: "games" });
+  // let storageGames = [] as Game[];
 
-  if (typeof res.value === "string") {
-    storageGames = JSON.parse(res.value) as Game[];
-  }
+  // if (typeof res.value === "string") {
+  //   storageGames = JSON.parse(res.value) as Game[];
+  // }
 
-  let game1 = null;
+  // let game1 = null;
 
-  const game = storageGames.map((game) => {
-    if (game.id === selectedGameId) {
-      game1 = game as Game;
-      return game as Game;
-    }
-  });
+  // const game = storageGames.map((game) => {
+  //   if (game.id === selectedGameId) {
+  //     game1 = game as Game;
+  //     return game as Game;
+  //   }
+  // });
 
-  return game1;
+  // return game1;
 }
 
 let GamesContext = createContext({} as Games);

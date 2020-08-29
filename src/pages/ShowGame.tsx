@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButt
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 import './ShowGame.css';
 
+
 const MAP_API_KEY = "AIzaSyCdnfrfE_H7gGd0kfyvzl3Lw6AJaxxJVDo";
 
 const mapContainerStyle = {
@@ -51,10 +52,12 @@ const ShowGame: React.FC = () => {
                 <IonContent>
                     <IonToolbar>
                         <IonTitle>Game Stats</IonTitle>
+                        <IonButton slot="end" color="dark">Save</IonButton>
                     </IonToolbar>                    
                     <IonGrid>
                         <IonRow>
                             <IonCol><IonButton expand="block" className="stat_button" size="large" onClick={() => passCount++}>Pass +</IonButton></IonCol>
+                <IonCol><IonCard>10</IonCard></IonCol>
                             <IonCol><IonButton expand="block" className="stat_button" size="large" onClick={() =>  console.log(passCount)}>Pass -</IonButton></IonCol>
                         </IonRow>
                         <IonRow>
