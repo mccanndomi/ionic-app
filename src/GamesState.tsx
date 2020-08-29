@@ -88,8 +88,13 @@ export async function getSelectedGame(): Promise<any> {
   console.log(uuid);
 
   let database = db.ref(`/user1/${uuid}`);
-  database.once("value");
-  
+  database.on("value", (snapshot) => {
+    let data = snapshot.val();
+    let items = Object.values(data);
+    if (data != null) {
+      return items;
+    }
+  });
 
   // const gameIdRes = await Storage.get({ key: "selectedGame" });
   // let selectedGameId = "";
