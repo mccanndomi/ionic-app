@@ -1,38 +1,11 @@
-import React, { useState } from "react";
-import {
-  IonContent,
-  IonHeader,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonFab,
-  IonFabButton,
-  IonModal,
-  IonButton,
-  IonInput,
-  IonList,
-  IonItem,
-  IonLabel,
-  IonItemOption,
-  IonItemOptions,
-  IonItemSliding,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonIcon,
-  IonLoading,
-} from "@ionic/react";
-import uuid from "uuid";
-import "./ListGames.css";
-import {
-  Game,
-  Games,
-  GameContextConsumer,
-  saveGames,
-  setSelectedGame,
-} from "../GamesState";
-import { add } from "ionicons/icons";
-import ShowGame from "./ShowGame";
+import React, { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonModal, IonButton, IonInput, 
+         IonList, IonItem, IonLabel, IonItemOption, IonItemOptions, IonItemSliding, IonGrid, IonRow, IonCol, IonIcon, IonLoading } from '@ionic/react';
+import uuid from 'uuid';
+import './ListGames.css';
+import { Game, Games, GameContextConsumer, saveGames, setSelectedGame, removeGame } from '../GamesState';
+import { add } from 'ionicons/icons';
+import ShowGame from './ShowGame';
 
 const ListGames: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -59,44 +32,32 @@ const ListGames: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <GameContextConsumer>
-          {(context: Games) => (
-            <IonList>
-              {context.games
-                ? context.games.map((g: Game) => (
-                    <IonItemSliding key={uuid.v4()}>
-                      <IonItem
-                        button
-                        routerLink="/showgame"
-                        onClick={() => setSelectedGame(g.id)}
-                      >
-                        <IonGrid>
-                          <IonRow>
-                            <IonLabel className="game_info">
-                              {g.home_team} {g.home_goals} - {g.away_goals}{" "}
-                              {g.away_team}{" "}
-                            </IonLabel>
-                          </IonRow>
-                        </IonGrid>
-                      </IonItem>
-                      <IonItemOptions side="end">
-                        <IonItemOption
-                          color="danger"
-                          onClick={() => {
-                            var i = context.games.findIndex(
-                              (o) => o.id === g.id
-                            );
-                            if (i > -1) context.games.splice(i, 1);
-                            saveGames(context.games);
-                          }}
-                        >
-                          Delete
-                        </IonItemOption>
-                      </IonItemOptions>
-                    </IonItemSliding>
-                  ))
-                : {}}
-            </IonList>
-          )}
+          { (context : Games) =>
+          <IonList>
+            { 
+            (context.games)
+              ? context.games.map((g : Game) =>
+                <IonItemSliding key={uuid.v4()}>
+                  <IonItem button routerLink="/showgame" onClick={() => setSelectedGame(g.id)}>
+                    <IonGrid>
+                      <IonRow>
+            <IonLabel className="game_info">{g.home_team} {g.home_goals} - {g.away_goals} {g.away_team} </IonLabel>
+                      </IonRow>
+                    </IonGrid>
+                  </IonItem>
+                  <IonItemOptions side="end">
+                    <IonItemOption color="danger" onClick={() =>{
+                      var i = context.games.findIndex(o => o.id === g.id);
+                      if (i > -1) context.games.splice(i, 1);
+                      //saveGames(context.games);
+                      removeGame(g.id)
+                    }}>Delete</IonItemOption>
+                  </IonItemOptions>
+                </IonItemSliding>)
+              : {}
+              }
+          </IonList>
+          }
         </GameContextConsumer>
 
         <IonModal isOpen={showModal} cssClass="my-custom-class">
@@ -143,6 +104,18 @@ const ListGames: React.FC = () => {
                         home_goals: home_goals,
                         away_goals: away_goals,
                         id: uuid.v4(),
+                        stats: {
+                          home_ball_in_box: 0,
+                          home_corners: 0,
+                          home_passes: 0,
+                          home_shots: 0,
+                          home_tackles: 0,
+                          away_ball_in_box: 0,
+                          away_corners: 0,
+                          away_passes: 0,
+                          away_shots: 0,
+                          away_tackles: 0
+                        }
                       })
                     : (context.games = [
                         {
@@ -153,6 +126,18 @@ const ListGames: React.FC = () => {
                           home_goals: home_goals,
                           away_goals: away_goals,
                           id: uuid.v4(),
+                          stats: {
+                            home_ball_in_box: 0,
+                            home_corners: 0,
+                            home_passes: 0,
+                            home_shots: 0,
+                            home_tackles: 0,
+                            away_ball_in_box: 0,
+                            away_corners: 0,
+                            away_passes: 0,
+                            away_shots: 0,
+                            away_tackles: 0
+                          }
                         },
                       ]);
                   saveGames(context.games);
