@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Game, Games, GameContextConsumer, saveGames, getSelectedGame } from '../GamesState';
 import uuid from 'uuid';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonLabel, IonItem, IonList, IonItemSliding, IonGrid, IonRow, IonItemOption, IonItemOptions, IonCol } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonLabel, IonItem, IonList, IonItemSliding, IonGrid, IonRow, IonItemOption, IonItemOptions, IonCol, IonCard, IonCardSubtitle, IonCardTitle } from '@ionic/react';
+import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 import './ShowGame.css';
+
+const MAP_API_KEY = "AIzaSyCdnfrfE_H7gGd0kfyvzl3Lw6AJaxxJVDo";
+
+const mapContainerStyle = {
+    width: "100vw",
+    height: "100vh",
+};
+
+const center = {
+    lat: -41.285472,
+    lng: 174.723864,
+};
+
+const libraries = ["places"];
 
 const ShowGame: React.FC = () => {
 
@@ -21,6 +36,13 @@ const ShowGame: React.FC = () => {
 
     }, []);
 
+    const {isLoaded, loadError} = useLoadScript({
+        googleMapsApiKey: MAP_API_KEY,
+        libraries,
+    });
+
+    if(loadError) return <IonLabel>load error</IonLabel>;
+    if(!isLoaded) return <IonLabel>Loading...</IonLabel>;
 
     return (
         <IonPage>
@@ -38,6 +60,9 @@ const ShowGame: React.FC = () => {
                         <IonRow>
                             <IonCol><IonButton expand="block" className="stat_button" size="large">Pass +</IonButton></IonCol>
                             <IonCol><IonButton expand="block" className="stat_button" size="large">Pass +</IonButton></IonCol>
+                        </IonRow>
+                        <IonRow>
+                        <IonCol size="12"><IonCard><GoogleMap mapContainerStyle={mapContainerStyle} zoom={8} center={center}></GoogleMap></IonCard></IonCol>
                         </IonRow>
                     </IonGrid>
                 </IonContent>
