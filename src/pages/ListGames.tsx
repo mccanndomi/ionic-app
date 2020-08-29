@@ -3,7 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabBut
          IonList, IonItem, IonLabel, IonItemOption, IonItemOptions, IonItemSliding, IonGrid, IonRow, IonCol, IonIcon, IonLoading } from '@ionic/react';
 import uuid from 'uuid';
 import './ListGames.css';
-import { Game, Games, GameContextConsumer, saveGames, setSelectedGame } from '../GamesState';
+import { Game, Games, GameContextConsumer, saveGames, setSelectedGame, removeGame } from '../GamesState';
 import { add } from 'ionicons/icons';
 import ShowGame from './ShowGame';
 
@@ -50,7 +50,8 @@ const ListGames: React.FC = () => {
                     <IonItemOption color="danger" onClick={() =>{
                       var i = context.games.findIndex(o => o.id === g.id);
                       if (i > -1) context.games.splice(i, 1);
-                      saveGames(context.games);
+                      //saveGames(context.games);
+                      removeGame(g.id)
                     }}>Delete</IonItemOption>
                   </IonItemOptions>
                 </IonItemSliding>)

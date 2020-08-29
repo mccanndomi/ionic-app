@@ -13,10 +13,14 @@ import { useState, useEffect } from "react";
 import { logInUser } from "../MyFirebase";
 import { createToast } from "../toast";
 import { registerFirebase, auth, db } from "../MyFirebase";
+import { GameContextConsumer , setUuid, getUuid} from '../GamesState'
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [correctPassword, setCorrectPassword] = useState(false);
+
+  var usersUuid: string;
 
   async function loginUser() {
     const loggedIn = await logInUser(username, password);
@@ -31,13 +35,15 @@ const Login: React.FC = () => {
       if (auth().currentUser !== null) {
         console.log("user id: " + auth().currentUser?.uid);
         usersUuid = auth().currentUser?.uid!;
+        setUuid(usersUuid);
+        console.log(`some shit ${usersUuid}`)
       } else {
         console.log("oh no");
       }
     }
   }
 
-  var usersUuid: string;
+  
 
   return (
     <IonPage>
@@ -56,19 +62,18 @@ const Login: React.FC = () => {
           placeholder="Password"
           onIonChange={(e: any) => setPassword(e.target.value)}
         ></IonInput>
-        <UuidContextConsumer>
-          {(context: Uuid) => (
+        <GameContextConsumer>
+          {() => (
             <IonButton
               onClick={() => {
                 loginUser();
-                context.uuid = usersUuid;
               }}
               href="/listgamestab"
             >
               Login In
             </IonButton>
           )}
-        </UuidContextConsumer>
+        </GameContextConsumer>
 
         <IonButton href="/register">Register</IonButton>
       </IonContent>

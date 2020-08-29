@@ -58,6 +58,7 @@ const Register: React.FC = () => {
           onIonChange={(e: any) => setPasswordConf(e.target.value)}
         ></IonInput>
         <IonButton onClick={tryRegister}>Register</IonButton>
+        <IonButton href="/login">Login</IonButton>
       </IonContent>
     </IonPage>
   );
