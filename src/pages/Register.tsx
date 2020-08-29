@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import {registerFirebase, auth} from '../MyFirebase'
 
 import { createToast } from '../toast' 
+import { Link } from "react-router-dom";
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -58,7 +59,7 @@ const Register: React.FC = () => {
           onIonChange={(e: any) => setPasswordConf(e.target.value)}
         ></IonInput>
         <IonButton onClick={tryRegister}>Register</IonButton>
-        <IonButton href="/login">Login</IonButton>
+        <p>Already registered? <Link to="/login">Login</Link></p>
       </IonContent>
     </IonPage>
   );

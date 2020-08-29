@@ -13,7 +13,8 @@ import { useState, useEffect } from "react";
 import { logInUser } from "../MyFirebase";
 import { createToast } from "../toast";
 import { registerFirebase, auth, db } from "../MyFirebase";
-import { GameContextConsumer , setUuid, getUuid} from '../GamesState'
+import { GameContextConsumer, setUuid, getUuid } from "../GamesState";
+import { Redirect } from "react-router";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -36,14 +37,13 @@ const Login: React.FC = () => {
         console.log("user id: " + auth().currentUser?.uid);
         usersUuid = auth().currentUser?.uid!;
         setUuid(usersUuid);
-        console.log(`some shit ${usersUuid}`)
+        console.log(`some  ${usersUuid}`);
+        setCorrectPassword(true);
       } else {
         console.log("oh no");
       }
     }
   }
-
-  
 
   return (
     <IonPage>
@@ -67,6 +67,7 @@ const Login: React.FC = () => {
             <IonButton
               onClick={() => {
                 loginUser();
+                
               }}
               href="/listgamestab"
             >
