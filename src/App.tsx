@@ -17,6 +17,7 @@ import Highlights from './pages/Highlights';
 import Login from './pages/Login';
 import Register from './pages/Register'
 import ShowGame from './pages/ShowGame'
+import MapPage from './pages/MapPage'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -51,6 +52,7 @@ const App: React.FC = () => (
             <Route path="/listgamestab" component={ListGames} exact={true} />
             <Route path="/addgametab" component={AddGame} exact={true} />
             <Route path="/highlightstab" component={Highlights} />
+            <Route path="/mapPage" component={MapPage} />
             <Route path="/" render={() => <Redirect to="/login" />} exact={true} />
           </IonRouterOutlet>
           

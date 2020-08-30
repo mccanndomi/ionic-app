@@ -10,11 +10,11 @@ export interface Game {
   date: string;
   home_team: string;
   away_team: string;
-  home_goals: string;
-  away_goals: string;
+  home_goals: number;
+  away_goals: number;
   id: string;
-  location_lat?: number;
-  location_lng?: number;
+  location_lat: number;
+  location_lng: number;
   stats: Stats;
 }
 
@@ -55,6 +55,7 @@ export async function saveGames(gs: Game[]) {
     id: gs[gs.length - 1].id,
     location_lat: gs[gs.length - 1].location_lat,
     location_lng: gs[gs.length - 1].location_lng,
+    stats: gs[gs.length - 1].stats,
   });
 }
 
@@ -88,38 +89,18 @@ export async function getSelectedGame(): Promise<any> {
   let uuid = selectedID.value as string;
 
   let database = db.ref(`/user1/` + uuid);
+
+  var gameReturned;
   database.on("value", (snapshot) => {
     let data = snapshot.val();
     if (data != null) {
-      console.log(data)
+      //console.log(data)
+      gameReturned = data;
       return data as Game;
     }
   });
 
-  // const gameIdRes = await Storage.get({ key: "selectedGame" });
-  // let selectedGameId = "";
-
-  // if (typeof gameIdRes.value === "string") {
-  //   selectedGameId = gameIdRes.value as string;
-  // }
-
-  // let res = await Storage.get({ key: "games" });
-  // let storageGames = [] as Game[];
-
-  // if (typeof res.value === "string") {
-  //   storageGames = JSON.parse(res.value) as Game[];
-  // }
-
-  // let game1 = null;
-
-  // const game = storageGames.map((game) => {
-  //   if (game.id === selectedGameId) {
-  //     game1 = game as Game;
-  //     return game as Game;
-  //   }
-  // });
-
-  // return game1;
+  return gameReturned;
 }
 
 let GamesContext = createContext({} as Games);

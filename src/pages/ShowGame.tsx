@@ -17,6 +17,8 @@ import {
   IonRow,
   IonCol,
   IonCard,
+  IonButtons,
+  IonIcon,
 } from "@ionic/react";
 import {
   GoogleMap,
@@ -24,7 +26,7 @@ import {
   Marker,
 } from "@react-google-maps/api";
 import "./ShowGame.css";
-import { gameController, search } from "ionicons/icons";
+import { arrowBack, saveOutline, mapOutline } from "ionicons/icons";
 
 const MAP_API_KEY = "AIzaSyCdnfrfE_H7gGd0kfyvzl3Lw6AJaxxJVDo";
 
@@ -52,13 +54,21 @@ const ShowGame: React.FC = () => {
   const [pass_count, setPassCount] = useState(0);
   const [corner_count, setCornerCount] = useState(0);
   const [shots_on_target, setShotsOnCount] = useState(0);
-  const [shots_off_target, setShotsOffCount] = useState(0);
   const [balls_in_box, setBallsInBoxCount] = useState(0);
   const [tackles, setTacklesCount] = useState(0);
 
   useEffect(() => {
     async function setGame() {
-      await getSelectedGame().then((game) => setSelectedGame(game));
+      await getSelectedGame().then((game) => {
+          setSelectedGame(game);
+          setHomeCount(game.home_goals);
+          setAwayCount(game.away_goals);
+          setPassCount(game.stats.home_passes);
+          setCornerCount(game.stats.home_corners);
+          setShotsOnCount(game.stats.home_shots);
+          setBallsInBoxCount(game.stats.home_ball_in_box);
+          setTacklesCount(game.stats.home_tackles);
+        });
     }
     setGame();
   }, []);
@@ -77,12 +87,14 @@ const ShowGame: React.FC = () => {
         {(context: Games) => (
           <IonContent>
             <IonToolbar>
-              <IonTitle>Game Stats</IonTitle>
-              <IonButton
+                <IonButtons slot="start">
+                    <IonButton routerLink="/listgamestab">
+                        <IonIcon icon={arrowBack}></IonIcon>
+                    </IonButton>
+                </IonButtons>
+                <IonButtons slot="primary">
+                <IonButton
                 type="submit"
-                slot="end"
-                color="light"
-                className="stat_value"
                 onClick={(e) => {
                   context.games
                     ? context.games.push({
@@ -91,8 +103,8 @@ const ShowGame: React.FC = () => {
                         away_team: game.away_team,
                         location_lat: game.location_lat,
                         location_lng: game.location_lng,
-                        home_goals: "0",
-                        away_goals: "0",
+                        home_goals: home_goals,
+                        away_goals: away_goals,
                         id: game.id,
                         stats: {
                           home_ball_in_box: balls_in_box,
@@ -114,8 +126,8 @@ const ShowGame: React.FC = () => {
                           away_team: game.away_team,
                           location_lat: game.location_lat,
                           location_lng: game.location_lng,
-                          home_goals: "0",
-                          away_goals: "0",
+                          home_goals: home_goals,
+                          away_goals: away_goals,
                           id: game.id,
                           stats: {
                             home_ball_in_box: balls_in_box,
@@ -136,6 +148,7 @@ const ShowGame: React.FC = () => {
               >
                 Save
               </IonButton>
+                </IonButtons>
             </IonToolbar>
             <IonGrid>
               <IonRow>
@@ -146,7 +159,7 @@ const ShowGame: React.FC = () => {
                     size="large"
                     onClick={() => setHomeCount(home_goals + 1)}
                   >
-                    Home Goals
+                    {game.home_team}
                   </IonButton>
                 </IonCol>
                 <IonCol size="2">
@@ -167,7 +180,7 @@ const ShowGame: React.FC = () => {
                     size="large"
                     onClick={() => setAwayCount(away_goals + 1)}
                   >
-                    Away Goal
+                      {game.away_team}
                   </IonButton>
                 </IonCol>
               </IonRow>
@@ -332,19 +345,30 @@ const ShowGame: React.FC = () => {
                 </IonCol>
               </IonRow>
               <IonRow>
+                <IonCol>
+                    <IonButton color="tertiary">
+                        <IonLabel>View on Map</IonLabel>
+                        <IonIcon icon={mapOutline}></IonIcon>
+                    </IonButton>
+                </IonCol>
+              </IonRow>
+              {/* <IonRow>
                 <IonCol size="12">
                   <IonCard className="map_card">
                     <GoogleMap
                       mapContainerStyle={mapContainerStyle}
-                      zoom={8}
-                      center={center}
+                      zoom={12}
+                      center={{
+                        lat: game.location_lat,
+                        lng: game.location_lng,
+                      }}
                       options={options}
                     >
-                        <Marker position={{ lat: center.lat, lng: center.lng}}></Marker>
+                        <Marker position={{ lat: game.location_lat, lng: game.location_lng}}></Marker>
                     </GoogleMap>
                   </IonCard>
                 </IonCol>
-              </IonRow>
+              </IonRow> */}
             </IonGrid>
           </IonContent>
         )}

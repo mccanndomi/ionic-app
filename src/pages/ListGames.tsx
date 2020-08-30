@@ -39,8 +39,8 @@ const ListGames: React.FC = () => {
   const [location_lat, setLocationlat] = useState(0);
   const [location_lng, setLocationlng] = useState(0);
 
-  var home_goals = "0";
-  var away_goals = "0";
+  var home_goals = 0;
+  var away_goals = 0;
   
 
   const { isLoaded, loadError } = useLoadScript({
@@ -139,13 +139,6 @@ const ListGames: React.FC = () => {
               <IonButton
                 type="submit"
                 onClick={(e) => {
-                  console.log(date);
-                  console.log(home_team);
-                  console.log(away_team);
-                  console.log(home_goals);
-                  console.log(away_goals);
-                  console.log(location_lat);
-                  console.log(location_lng);
                   context.games
                     ? context.games.push({
                         date: date,
