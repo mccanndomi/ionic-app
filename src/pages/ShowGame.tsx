@@ -4,6 +4,7 @@ import uuid from 'uuid';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonButton, IonLabel, IonItem, IonList, IonItemSliding, IonGrid, IonRow, IonItemOption, IonItemOptions, IonCol, IonCard, IonCardSubtitle, IonCardTitle } from '@ionic/react';
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api";
 import './ShowGame.css';
+import { count } from 'console';
 
 
 const MAP_API_KEY = "AIzaSyCdnfrfE_H7gGd0kfyvzl3Lw6AJaxxJVDo";
@@ -23,9 +24,14 @@ const libraries = ["places"];
 const ShowGame: React.FC = () => {
 
     const [game, setSelectedGame] = useState({} as Game);
-
-    var passCount = 0;
-
+    const [home_goals, setHomeCount] = useState(0);
+    const [away_goals, setAwayCount] = useState(0);
+    const [pass_count, setPassCount] = useState(0);
+    const [corner_count, setCornerCount] = useState(0);
+    const [shots_on_target, setShotsOnCount] = useState(0);
+    const [shots_off_target, setShotsOffCount] = useState(0);
+    const [balls_in_box, setBallsInBoxCount] = useState(0);
+    const [tackles, setTacklesCount] = useState(0);
 
     useEffect(() => {
 
@@ -52,20 +58,46 @@ const ShowGame: React.FC = () => {
                 <IonContent>
                     <IonToolbar>
                         <IonTitle>Game Stats</IonTitle>
-                        <IonButton slot="end" color="dark">Save</IonButton>
+                        <IonButton slot="end" color="light" className="stat_value">Save</IonButton>
                     </IonToolbar>                    
                     <IonGrid>
                         <IonRow>
-                            <IonCol><IonButton expand="block" className="stat_button" size="large" onClick={() => passCount++}>Pass +</IonButton></IonCol>
-                <IonCol><IonCard>10</IonCard></IonCol>
-                            <IonCol><IonButton expand="block" className="stat_button" size="large" onClick={() =>  console.log(passCount)}>Pass -</IonButton></IonCol>
+                            <IonCol size="5"><IonButton expand="block" className="stat_button" size="large" onClick={() => setHomeCount(home_goals + 1)}>Home Goal</IonButton></IonCol>
+                <IonCol size="2"><IonButton expand="block" className="stat_value" size="large" color="secondary" onClick={() => console.log(home_goals)}>{home_goals} - {away_goals}</IonButton></IonCol>
+                            <IonCol size="5"><IonButton expand="block" className="stat_button" size="large" onClick={() =>  setAwayCount(away_goals + 1)}>Away Goal</IonButton></IonCol>
                         </IonRow>
                         <IonRow>
-                            <IonCol><IonButton expand="block" className="stat_button" size="large">Pass +</IonButton></IonCol>
-                            <IonCol><IonButton expand="block" className="stat_button" size="large">Pass +</IonButton></IonCol>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setPassCount(pass_count + 1)}>Pass +</IonButton></IonCol>
+                <IonCol size="4"><IonButton expand="block" className="stat_value" size="large" color="secondary">{pass_count}</IonButton></IonCol>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() =>  setPassCount(pass_count - 1)}>Pass -</IonButton></IonCol>
                         </IonRow>
                         <IonRow>
-                        <IonCol size="12"><IonCard><GoogleMap mapContainerStyle={mapContainerStyle} zoom={8} center={center}></GoogleMap></IonCard></IonCol>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setCornerCount(corner_count + 1)}>Corner +</IonButton></IonCol>
+                <IonCol size="4"><IonButton expand="block" className="stat_value" size="large" color="secondary">{corner_count}</IonButton></IonCol>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() =>  setCornerCount(corner_count - 1)}>Corner -</IonButton></IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setShotsOnCount(shots_on_target + 1)}>Shots On +</IonButton></IonCol>
+                <IonCol size="4"><IonButton expand="block" className="stat_value" size="large" color="secondary">{shots_on_target}</IonButton></IonCol>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setShotsOnCount(shots_on_target - 1)}>Shots On -</IonButton></IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setShotsOffCount(shots_off_target + 1)}>Shots Off +</IonButton></IonCol>
+                <IonCol size="4"><IonButton expand="block" className="stat_value" size="large" color="secondary">{shots_off_target}</IonButton></IonCol>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setShotsOffCount(shots_off_target - 1)}>Shots Off -</IonButton></IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setBallsInBoxCount(balls_in_box + 1)}>Balls In +</IonButton></IonCol>
+                <IonCol size="4"><IonButton expand="block" className="stat_value" size="large" color="secondary">{balls_in_box}</IonButton></IonCol>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setBallsInBoxCount(balls_in_box - 1)}>Balls In -</IonButton></IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setTacklesCount(tackles + 1)}>Tackles +</IonButton></IonCol>
+                <IonCol size="4"><IonButton expand="block" className="stat_value" size="large" color="secondary">{tackles}</IonButton></IonCol>
+                            <IonCol size="4"><IonButton expand="block" className="stat_button" size="large" onClick={() => setTacklesCount(tackles - 1)}>Tackles -</IonButton></IonCol>
+                        </IonRow>
+                        <IonRow>
+                            <IonCol size="12"><IonCard><GoogleMap mapContainerStyle={mapContainerStyle} zoom={8} center={center}></GoogleMap></IonCard></IonCol>
                         </IonRow>
                     </IonGrid>
                 </IonContent>

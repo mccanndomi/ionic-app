@@ -1,3 +1,9 @@
 .stat_button {
-    margin: 8px;
+    margin: 6px;
+    font-size: small;
+}
+
+.stat_value {
+    margin: 6px;
+    font-size: small;
 }
