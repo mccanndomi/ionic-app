@@ -1,22 +1,55 @@
 import React, { useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonModal, IonButton, IonInput, 
-         IonList, IonItem, IonLabel, IonItemOption, IonItemOptions, IonItemSliding, IonGrid, IonRow, IonCol, IonIcon, IonLoading } from '@ionic/react';
+         IonList, IonItem, IonLabel, IonItemOption, IonItemOptions, IonItemSliding, IonGrid, IonRow, IonCol, IonIcon, IonLoading, IonCard, IonCardTitle, IonCardContent, IonDatetime } from '@ionic/react';
 import uuid from 'uuid';
 import './ListGames.css';
 import { Game, Games, GameContextConsumer, saveGames, setSelectedGame, removeGame } from '../GamesState';
 import { add } from 'ionicons/icons';
-import ShowGame from './ShowGame';
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+} from "@react-google-maps/api";
+
+const mapContainerStyle = {
+  width: "100vw",
+  height: "340px",
+};
+
+const center = {
+  lat: -41.285472,
+  lng: 174.723864,
+};
+
+const options = {
+    disableDefaultUI: true,
+
+};
+
+const libraries = ["places"];
+
+const MAP_API_KEY = "AIzaSyCdnfrfE_H7gGd0kfyvzl3Lw6AJaxxJVDo";
 
 const ListGames: React.FC = () => {
+  
   const [showModal, setShowModal] = useState(false);
+  const [date, setDate] = useState("");
+  const [home_team, setHomeTeam] = useState("")
+  const [away_team, setAwayTeam] = useState("");
+  const [location_lat, setLocationlat] = useState(0);
+  const [location_lng, setLocationlng] = useState(0);
 
-  //Game Vars
-  var date: string;
-  var home_team: string;
-  var away_team: string;
-  var location: string;
   var home_goals = "0";
   var away_goals = "0";
+  
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: MAP_API_KEY,
+    libraries,
+  });
+
+  if (loadError) return <IonLabel>load error</IonLabel>;
+  if (!isLoaded) return <IonLabel>Loading...</IonLabel>;
 
   return (
     <IonPage>
@@ -67,27 +100,38 @@ const ListGames: React.FC = () => {
           <IonList lines="inset">
             <IonItem>
               <IonLabel position="floating">Date</IonLabel>
-              <IonInput
-                onIonChange={(e) => (date = e.detail.value!)}
-              ></IonInput>
+              <IonDatetime display-timezone="utc" onIonChange={e => setDate(e.detail.value!)}></IonDatetime>
             </IonItem>
             <IonItem>
               <IonLabel position="floating">Home Team</IonLabel>
               <IonInput
-                onIonChange={(e) => (home_team = e.detail.value!)}
+                onIonChange={(e) => setHomeTeam(e.detail.value!)}
               ></IonInput>
             </IonItem>
             <IonItem>
               <IonLabel position="floating">Away Team</IonLabel>
               <IonInput
-                onIonChange={(e) => (away_team = e.detail.value!)}
+                onIonChange={(e) => setAwayTeam(e.detail.value!)}
               ></IonInput>
             </IonItem>
+              <IonCard>
+                <IonCardContent>Please drop a pin for the location of the game!</IonCardContent>
+              </IonCard>
             <IonItem>
-              <IonLabel position="floating">Location</IonLabel>
-              <IonInput
-                onIonChange={(e) => (location = e.detail.value!)}
-              ></IonInput>
+              <IonCard className="map_card">
+                    <GoogleMap
+                      mapContainerStyle={mapContainerStyle}
+                      zoom={8}
+                      center={center}
+                      options={options}
+                      onClick={(e) => {
+                        setLocationlat(e.latLng.lat);
+                        setLocationlng(e.latLng.lng);
+                      }}
+                    >
+                        <Marker position={{ lat: location_lat, lng: location_lng}}></Marker>
+                    </GoogleMap>
+                </IonCard>
             </IonItem>
           </IonList>
           <GameContextConsumer>
@@ -95,14 +139,22 @@ const ListGames: React.FC = () => {
               <IonButton
                 type="submit"
                 onClick={(e) => {
+                  console.log(date);
+                  console.log(home_team);
+                  console.log(away_team);
+                  console.log(home_goals);
+                  console.log(away_goals);
+                  console.log(location_lat);
+                  console.log(location_lng);
                   context.games
                     ? context.games.push({
                         date: date,
                         home_team: home_team,
                         away_team: away_team,
-                        location: location,
                         home_goals: home_goals,
                         away_goals: away_goals,
+                        location_lat: location_lat,
+                        location_lng: location_lng,
                         id: uuid.v4(),
                         stats: {
                           home_ball_in_box: 0,
@@ -122,9 +174,10 @@ const ListGames: React.FC = () => {
                           date: date,
                           home_team: home_team,
                           away_team: away_team,
-                          location: location,
                           home_goals: home_goals,
                           away_goals: away_goals,
+                          location_lat: location_lat,
+                          location_lng: location_lng,
                           id: uuid.v4(),
                           stats: {
                             home_ball_in_box: 0,

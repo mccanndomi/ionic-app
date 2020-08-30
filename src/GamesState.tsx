@@ -10,10 +10,11 @@ export interface Game {
   date: string;
   home_team: string;
   away_team: string;
-  location: string;
   home_goals: string;
   away_goals: string;
   id: string;
+  location_lat?: number;
+  location_lng?: number;
   stats: Stats;
 }
 
@@ -49,10 +50,11 @@ export async function saveGames(gs: Game[]) {
     date: gs[gs.length - 1].date,
     home_team: gs[gs.length - 1].home_team,
     away_team: gs[gs.length - 1].away_team,
-    location: gs[gs.length - 1].location,
     home_goals: gs[gs.length - 1].home_goals,
     away_goals: gs[gs.length - 1].away_goals,
     id: gs[gs.length - 1].id,
+    location_lat: gs[gs.length - 1].location_lat,
+    location_lng: gs[gs.length - 1].location_lng,
   });
 }
 
@@ -85,14 +87,12 @@ export async function getSelectedGame(): Promise<any> {
   let selectedID = await Storage.get({ key: "selectedGame" });
   let uuid = selectedID.value as string;
 
-  console.log(uuid);
-
-  let database = db.ref(`/user1/${uuid}`);
+  let database = db.ref(`/user1/` + uuid);
   database.on("value", (snapshot) => {
     let data = snapshot.val();
-    let items = Object.values(data);
     if (data != null) {
-      return items;
+      console.log(data)
+      return data as Game;
     }
   });
 
@@ -139,8 +139,6 @@ function GameContextProvider(props: { children: React.ReactNode }) {
       }
     });
   }, []);
-
-  console.log(initialGames);
 
   return (
     <GamesContext.Provider
