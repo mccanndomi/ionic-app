@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonFab, IonFabButton, IonModal, IonButton, IonInput, 
-         IonList, IonItem, IonLabel, IonItemOption, IonItemOptions, IonItemSliding, IonGrid, IonRow, IonCol, IonIcon, IonLoading, IonCard, IonCardTitle, IonCardContent, IonDatetime } from '@ionic/react';
+         IonList, IonItem, IonLabel, IonItemOption, IonItemOptions, IonItemSliding, IonGrid, IonRow, IonCol, IonIcon, IonLoading, IonCard, IonCardTitle, IonCardContent, IonDatetime, IonButtons } from '@ionic/react';
 import uuid from 'uuid';
-import './ListGames.css';
+import './MapPage.css';
 import { Game, Games, GameContextConsumer, saveGames, setSelectedGame, removeGame, getSelectedGame } from '../GamesState';
-import { add } from 'ionicons/icons';
+import { add, arrowBack } from 'ionicons/icons';
 import {
   GoogleMap,
   useLoadScript,
@@ -13,7 +13,7 @@ import {
 
 const mapContainerStyle = {
   width: "100vw",
-  height: "340px",
+  height: "90vh",
 };
 
 const center = {
@@ -43,6 +43,13 @@ const MapPage: React.FC = () => {
 
     return(
         <IonPage>
+            <IonToolbar>
+                <IonButtons slot="start">
+                    <IonButton routerLink="/listgamestab">
+                        <IonIcon icon={arrowBack}></IonIcon>
+                    </IonButton>
+                </IonButtons>
+            </IonToolbar>
             <GameContextConsumer>
             {(context: Games) => (
             <IonContent>

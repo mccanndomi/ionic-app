@@ -345,9 +345,9 @@ const ShowGame: React.FC = () => {
                 </IonCol>
               </IonRow>
               <IonRow>
-                <IonCol>
-                    <IonButton color="tertiary">
-                        <IonLabel>View on Map</IonLabel>
+                <IonCol size="12">
+                    <IonButton expand="block" color="tertiary" className="stat_button" routerLink="/mapPage">
+                        <IonLabel>View location on Map</IonLabel>
                         <IonIcon icon={mapOutline}></IonIcon>
                     </IonButton>
                 </IonCol>
